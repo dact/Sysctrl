@@ -1,0 +1,42 @@
+* DONE Fix yaml parser exception either on [[file:examples/Sample1.yml::-%20"automata"%20:%20"one"][Sample1.yml]] or [[file:src/Data/Sysctrl/Types/Automata.hs::data%20Automata%20%3D%20Automata%20{%20automata%20::%20String][Automata:23]]
+  CLOSED: [2014-01-15 Wed 20:26]
+* DONE Implement alphabet check [[file:src/Data/Sysctrl/Types/Internal/Automata.hs::alphabet%20%3D%20True][Automata:32]]
+  CLOSED: [2014-01-16 Thu 19:07]
+* DONE Implement "ExternalToInternal" conversions [[file:src/Sysctrl/Util.hs::_ExternalToInternal%20::%20External.Automata%20->%20Internal.Automata][Util:35]]
+   CLOSED: [2014-01-16 Thu 19:36]
+* DONE Close File descriptors on [[file:src/Sysctrl/Init/Automata.hs::return%20$%20AutoP%20startPid%20startPipe%20allnodes][Automata:45]]
+  CLOSED: [2014-01-21 Tue 22:27]
+* DONE Complete "stateInit" [[file:src/Sysctrl/Init/Node.hs::nodeStart%20::%20State%20--%20State%20description][Node:13]]
+  CLOSED: [2014-01-19 Sun 21:18]
+* DONE finish "initProcess" [[file:src/Sysctrl/Init.hs::initProcces%20autoList%20%3D%20return%20()][Init:46]]
+  CLOSED: [2014-01-21 Tue 22:28]
+* DONE send error message [[file:src/Sysctrl/Run/State.hs::Nothing%20->%20error%20"Bad%20internal%20format"][State:27]] instead of ugly error
+  CLOSED: [2014-01-20 Mon 22:41]
+* DONE check error on tests in [[file:src/Tests/Fun.hs::_Fun_Test%20::%20Test][Fun:6]]
+  CLOSED: [2014-01-23 Thu 23:06]
+* DONE Move [[file:src/Data/Sysctrl/Types/Internal/Automata.hs::correct%20::%20Automata%20->%20Bool][correct]] to Sysctrl.Util
+  CLOSED: [2014-01-24 Fri 23:18]
+
+
+* Nice stuff
+** TODO Catch errors in case of bad number of arguments [[file:src/Main.hs::(path:_)%20<-%20getArgs][Main:13]]
+** TODO Catch errors in case of non existent path [[file:src/Main.hs::file%20<-%20B.readFile%20path][Main:14]]
+** TODO Fix imports on every file
+** TODO Add explicit imports [[file:src/Sysctrl/Util.hs::module%20Sysctrl.Util%20where][Util:1]]
+** TODO Run Hlint on everything
+
+* Important stuff
+** TODO Create process and start main loop in [[file:src/Sysctrl/Init.hs::init%20::%20ByteString%20->%20IO%20()][Init:15]]
+** TODO somehow kill the process
+** TODO Complete "initLoop" [[file:src/Sysctrl/Init.hs::initLoop%20::%20%5BAutomatonProcess%5D%20->%20Fd%20->%20IO%20()][Init:58]]
+
+* TODO Tests [0/2]
+- [-] functions [1/4]
+  - [X] [[file:src/Data/Sysctrl/Types/Internal/Automata.hs::correct%20::%20Automata%20->%20Bool][correct]]
+  - [ ] [[file:src/Sysctrl/Util.hs::_ExternalToInternal%20::%20External.Automata%20->%20Internal.Automata][ExternalToInternal]]
+  - [ ] [[file:src/Sysctrl/Util.hs::_DeltaToState%20::%20External.Delta%20->%20Internal.State][DeltaToState]]
+  - [ ] [[file:src/Sysctrl/Util.hs::mapFilter%20::%20(Ord%20k)%20%3D>%20Map%20k%20a%20->%20%5Bk%5D%20->%20Map%20k%20a][mapFilter]]
+- [ ] Processes [0/3]
+  - [ ] [[file:src/Sysctrl/Run/State.hs::stateRun%20paths%20_delta%20control%20input%20_final%20%3D%20do][stateRun]]
+  - [ ] [[file:src/Sysctrl/Init/Automata.hs::automataInit%20auto%20ctrl%20%3D][automataInit]]
+  - [ ] [[file:src/Sysctrl/Init/State.hs::stateInit%20::%20State%20--%20State%20description][stateInit]]
