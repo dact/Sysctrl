@@ -1,3 +1,4 @@
+-- hola!!
 module Sysctrl.Control where
 
 import Data.Yaml
@@ -9,8 +10,8 @@ import qualified Data.ByteString as B (ByteString, getLine)
 import System.Posix.Types (Fd)
 import System.Exit (exitSuccess)
 
-cmdRead :: B.ByteString -> IO ()
-cmdRead _cmd = do
+cmdRead :: Fd -> B.ByteString -> IO ()
+cmdRead ctrl _cmd = do
   case (decodeEither _cmd :: Either String Cmd) of
     Left a -> putStrLn a
     (Right (Cmd "info" ""))  -> putStrLn "info"
@@ -23,5 +24,5 @@ loop :: Fd -> Map String AutoPar -> IO ()
 loop control autoData = do
   putStr "> "
   line <- B.getLine
-  cmdRead line
+  cmdRead control line
   loop control autoData
