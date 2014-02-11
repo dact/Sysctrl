@@ -4,7 +4,7 @@ module Data.Sysctrl.Types.Internal.Automata (State(..),
 data State =
   State { state :: String,
           delta :: [(Char,String)]
-        }deriving(Eq)
+        }deriving(Eq,Show)
 
 
 data Automata =
@@ -14,4 +14,4 @@ data Automata =
               states :: [State],
               start :: String,
               final :: [String]
-            }deriving(Eq)
+            }deriving(Eq,Show)

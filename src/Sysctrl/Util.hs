@@ -3,16 +3,23 @@ module Sysctrl.Util where
 import System.Posix.Types
 import System.Posix.IO
 import Data.List
+import System.Exit (exitSuccess)
+import Control.Exception (catch)
 import qualified Data.Map as Map
 import Data.Map (Map)
 
 import qualified Data.Sysctrl.Types.Automata as Ex
 import qualified Data.Sysctrl.Types.Internal.Automata as In
 
+
+
+errorHandler :: IOError -> IO a
+errorHandler _ = exitSuccess >> error "ERROR"
+
 transRead :: Fd -> IO String
 transRead fd =
   do
-    (readData, _ ) <- fdRead fd 9
+    (readData, _ ) <- catch (fdRead fd 9) (errorHandler)
     let split = do
           i <- elemIndex '.' readData
           return $ splitAt i readData
