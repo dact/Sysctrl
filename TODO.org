@@ -16,6 +16,10 @@
   CLOSED: [2014-01-23 Thu 23:06]
 * DONE Move [[file:src/Data/Sysctrl/Types/Internal/Automata.hs::correct%20::%20Automata%20->%20Bool][correct]] to Sysctrl.Util
   CLOSED: [2014-01-24 Fri 23:18]
+* DONE Complete "initLoop" [[file:src/Sysctrl/Init.hs::initLoop%20::%20%5BAutomatonProcess%5D%20->%20Fd%20->%20IO%20()][Init:58]]
+  CLOSED: [2014-02-12 Wed 00:35]
+* DONE Create process and start main loop in [[file:src/Sysctrl/Init.hs::init%20::%20ByteString%20->%20IO%20()][Init:15]]
+  CLOSED: [2014-02-12 Wed 00:35]
 
 
 * Nice stuff
@@ -26,9 +30,7 @@
 ** TODO Run Hlint on everything
 
 * Important stuff
-** TODO Create process and start main loop in [[file:src/Sysctrl/Init.hs::init%20::%20ByteString%20->%20IO%20()][Init:15]]
 ** TODO somehow kill the process
-** TODO Complete "initLoop" [[file:src/Sysctrl/Init.hs::initLoop%20::%20%5BAutomatonProcess%5D%20->%20Fd%20->%20IO%20()][Init:58]]
 
 * TODO Tests [0/2]
 - [-] functions [1/4]
