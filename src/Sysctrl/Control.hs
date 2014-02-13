@@ -35,15 +35,15 @@ loop control autoData = do
 
 
 cmdInfoAll :: Map String AutoPar -> IO ()
-cmdInfoAll autoData = do
-  T.sequence $ Map.mapWithKey autoPrint autoData
-  return ()
+cmdInfoAll autoData =
+  putStrLn $ (unpack.encode) $ _data
   where
-    autoPrint k a = putStrLn k >>  (print $ info a)
+    _data = Response "info" $ Info $ _AutoMapToAutoList autoData
 
 cmdInfoOne :: Map String AutoPar -> String -> IO ()
 cmdInfoOne autoData a = case Map.lookup a autoData of
-  Just auto -> print $ info auto
+  Just (AutoPar _ auto) ->
+    putStrLn $ (unpack.encode) $ Response "info" $ Info [_AutoPToAutoI a auto]
   Nothing   -> putStrLn $ "Error: no automata " ++ a
 
 cmdSend :: Map String AutoPar -> String -> Fd -> IO ()

@@ -131,8 +131,22 @@ or
 #### Output
 
 ```yaml
-- accept : 3
-  reject : 1
+- msgtype: accept
+  accept:
+  - automata: One
+    msg: abbc
+  - automata: Three
+    msg: abbc
+- msgtype: reject
+  reject:
+  - automata: Two
+    msg: abbc
+    pos: 1
+- msgtype: error
+  error:
+  - where: "Four"
+    cause: "Error cause"
+
 ```
 
 # Bug Report

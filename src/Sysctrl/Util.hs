@@ -65,6 +65,11 @@ _AutoPToAutoI name auto = T.AutoInfo name (fromIntegral $ Ut.pid auto) nodeMap
     _NodeToAutoInfo _node = T.NodeInfo (Ut.node _node)
                             (fromIntegral $ Ut.nodePid _node)
 
+_AutoMapToAutoList :: Map String Ut.AutoPar -> [T.AutoInfo]
+_AutoMapToAutoList autoMap = map (_convert) autoList
+  where
+    autoList = Map.toList autoMap
+    _convert (name, (Ut.AutoPar _ autoP)) = _AutoPToAutoI name autoP
 
 
 doFdMap :: [String] -> IO (Map String Fd, Map String Fd)
