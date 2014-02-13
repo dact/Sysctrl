@@ -1,0 +1,21 @@
+- "automata" : "one"
+  "description" : "test one"
+  "alpha" : "abcd"
+  "states" : ["a","b","c","d"]
+  "start" : "a"
+  "final" : [ "c", "d" ]
+  "delta" :
+    - "node" : "a"
+      "trans":
+      - "symbol" : "b"
+	"next" : "b"
+    - "node" : "b"
+      "trans":
+      - "symbol" : "c"
+	"next" : "c"
+    - "node" : "c"
+      "trans":
+      - "symbol" : "d"
+	"next" : "d"
+    - "node" : "d"
+      "trans" : []

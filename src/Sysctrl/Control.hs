@@ -1,4 +1,3 @@
--- hola!!
 module Sysctrl.Control where
 
 import Data.Yaml
@@ -60,8 +59,8 @@ waitOutput _ 0 = return ()
 waitOutput control n = do
   _msg <- pack <$> transRead control
   let (Result cod _recog _rest) = case decode _msg of
-	Just _m  -> _m
-	Nothing -> Result 4 "_PARSE_ERROR_" (unpack _msg)
+        Just _m  -> _m
+        Nothing -> Result 4 "_PARSE_ERROR_" (unpack _msg)
   case cod of
     0 -> putStrLn $ "Success whit String " ++ _recog
     1 -> putStrLn $ "Error recog: " ++ _recog ++ " rest: " ++ _rest

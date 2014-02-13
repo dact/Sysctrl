@@ -10,8 +10,8 @@ import Data.Map (Map)
 
 import qualified Data.Sysctrl.Types.Automata as Ex
 import qualified Data.Sysctrl.Types.Internal.Automata as In
-
-
+import qualified Data.Sysctrl.Types as T
+import qualified Data.Sysctrl.Types.Util as Ut
 
 errorHandler :: IOError -> IO a
 errorHandler _ = exitSuccess >> error "ERROR"
@@ -56,6 +56,16 @@ _DeltaToState _delta =
              In.delta = deltas $ Ex.trans _delta
            }
   where deltas = map (\tra -> ( Ex.symbol tra, Ex.next tra))
+
+
+_AutoPToAutoI :: String -> Ut.AutomatonProcess -> T.AutoInfo
+_AutoPToAutoI name auto = T.AutoInfo name (fromIntegral $ Ut.pid auto) nodeMap
+  where
+    nodeMap = map (_NodeToAutoInfo) (Ut.nodes auto)
+    _NodeToAutoInfo _node = T.NodeInfo (Ut.node _node)
+                            (fromIntegral $ Ut.nodePid _node)
+
+
 
 doFdMap :: [String] -> IO (Map String Fd, Map String Fd)
 doFdMap [] = return (Map.empty, Map.empty)
