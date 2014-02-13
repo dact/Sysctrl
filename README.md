@@ -81,7 +81,7 @@ where:
 For information on all automata
 ```yaml
 { "cmd" : "info" , "msg" : "" }
-or
+#or
 { "cmd" : "info" }
 ```
 For information on specific automaton
@@ -134,3 +134,9 @@ or
 - accept : 3
   reject : 1
 ```
+
+# Bug Report
+
+* Submit an issue on [github](https://github.com/ST0257/Sysctrl/issues)
+* Email [me](mailto://agomezl@eafit.edu.co)
+* Submit a pull request with fixes
