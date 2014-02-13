@@ -56,7 +56,7 @@ where:
             <dt>node</dt>
             <dd>the name of the node</dd>
             <dt>trans</dt>
-            <dd> An array whit objects representing transitions
+            <dd> An array with objects representing transitions
                 <dl>
                     <dt>symbol</dt>
                     <dd>character of the transition</dd>
@@ -70,6 +70,10 @@ where:
 </dl>
 
 ### additional considerations
+
+* Write a DFA, be careful with delta
+* Delta **MUST** contain all the states, even those with no transitions (use empty Array)
+* Do not use Tabs!
 
 ## Commands
 
@@ -113,17 +117,20 @@ info:
 Ends execution
 ```yaml
  { "cmd" : "stop" , "msg" : "" }
- or
+ #or
  { "cmd" : "stop" }
 ```
 
 ### Send
 Send a String to be processed by all automata
 or
+```yaml
 { "cmd" : "send" , "msg" : "message" }
+```
 
 #### Output
 
-```
-TBA
+```yaml
+- accept : 3
+  reject : 1
 ```
