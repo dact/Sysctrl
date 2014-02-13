@@ -13,6 +13,8 @@ sysctrl [-hv] [-f script] infile
 ```
 
 ## Input file format
+Is an array of objects as follows
+
 ```yaml
 - "automata" : "Example"
   "description" : "This is just an example"
@@ -66,3 +68,62 @@ where:
     </dd>
 
 </dl>
+
+### additional considerations
+
+## Commands
+
+### Info
+For information on all automata
+```yaml
+{ "cmd" : "info" , "msg" : "" }
+or
+{ "cmd" : "info" }
+```
+For information on specific automaton
+```yaml
+{ "cmd" : "info" , "msg" : "automata1" }
+
+```
+
+#### Output
+
+```yaml
+msgtype: info
+info:
+- automata: One
+  ppid: 1201
+  nodes:
+  - node: A
+    pid: 1204
+  - node: B
+    pid: 1205
+  - node: C
+    pid: 1206
+- automata: Two
+  ppid: 1201
+  nodes:
+  - node: A
+    pid: 1209
+  - node: B
+    pid: 1211
+```
+
+### Stop
+Ends execution
+```yaml
+ { "cmd" : "stop" , "msg" : "" }
+ or
+ { "cmd" : "stop" }
+```
+
+### Send
+Send a String to be processed by all automata
+or
+{ "cmd" : "send" , "msg" : "message" }
+
+#### Output
+
+```
+TBA
+```
