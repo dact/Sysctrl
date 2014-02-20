@@ -1,7 +1,7 @@
 .PHONY : build clean
 
 build:
-	mkdir bin
+	mkdir -p bin
 	ghc src/Main.hs -isrc/ -o bin/sysctrl
 
 clean:

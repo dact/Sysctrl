@@ -3,23 +3,23 @@
 
 name:                Sysctrl
 version:             0.1.0.0
-synopsis:            Is a concurrent implementation of a set of DFA's
+synopsis:            Is a concurrent implementation of a set of DFA's, where each state is a independent process and the state transitions are represented as pipes between process. everything is controlled from a central process whose work is receive user commands and print the result accordingly.
 -- description:
 homepage:            https://github.com/ST0257/Sysctrl
 license:             MIT
 license-file:        LICENSE
-author:              Alejandro Gómez Londoño
+author:              Alejandro Gomez
 maintainer:          alegomez544@gmail.com
 -- copyright:
 category:            Concurrency
 build-type:          Simple
-extra-source-files:  README.pdf, README.md
+extra-source-files:  README.md
 cabal-version:       >=1.10
 
 executable Sysctrl
-  main-is:             Main.hs
+   main-is:            Main.hs
   -- other-modules:
   other-extensions:    DeriveGeneric, OverloadedStrings
-  build-depends:       base >=4.6 && <4.7, bytestring >=0.10 && <0.11, yaml >=0.8 && <0.9, containers >=0.5 && <0.6, unix >=2.6 && <2.7, HUnit >=1.2 && <1.3, vector >=0.10 && <0.11
+  build-depends:       base >=4.6 && <4.7, bytestring >=0.10 && <0.11, yaml >=0.8 && <0.9, containers >=0.5 && <0.6, unix >=2.7 && <2.8, HUnit >=1.2 && <1.3, vector >=0.10 && <0.11
   hs-source-dirs:      src
   default-language:    Haskell2010
