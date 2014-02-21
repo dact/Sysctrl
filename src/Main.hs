@@ -17,10 +17,10 @@ main :: IO ()
 main = do
   (flags, args) <- getArgs >>= compilerOpts
   case (sort flags) of
+    []           -> return ()
     (Help:_)     -> helpmsg >> exitSuccess
     (Version:_)  -> putStrLn "Sysctrl v0.0.1" >> exitSuccess
     ((File s):_) -> swapStdin s
-    []           -> return ()
   case args of
     []     -> helpmsg    >> exitFailure
     (p:[]) -> readFile p >>= initRead

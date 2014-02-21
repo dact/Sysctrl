@@ -46,16 +46,16 @@ initCheck autoList = do
 
 initProcces :: [I.Automata] -> IO ()
 initProcces autoList = do
-  (r,w) <- createPipe
-  let mkAutoPar auto = (,) (I.name auto)
-		       <$> AutoPar auto
-		       <$> (automataInit w auto)
+  let mkAutoPar auto = do
+	(r,w) <- createPipe
+	(,) (I.name auto) <$> AutoPar auto
+			  <$> (automataInit w r auto)
   autoProcList <- sequence $ map (mkAutoPar) autoList
-  initLoop autoProcList r
+  initLoop autoProcList
 
 -- ############################
 -- # Loop initialization step #
 -- ############################
 
-initLoop :: [(String,AutoPar)] -> Fd -> IO ()
-initLoop autoMap control = loop control $ fromList autoMap
+initLoop :: [(String,AutoPar)] -> IO ()
+initLoop autoMap control = loop $ fromList autoMap
