@@ -21,18 +21,18 @@ transRead fd =
   do
     (readData, _ ) <- catch (fdRead fd 9) (errorHandler)
     let split = do
-          i <- elemIndex '.' readData
-          return $ splitAt i readData
+	  i <- elemIndex '.' readData
+	  return $ splitAt i readData
     case split of
       Nothing -> error "Problem with the pipes"
       Just (n , '.':rest) ->
-        do
-          let size = ((read n) :: Int)
-          if (size == (length rest))
-            then return rest
-            else do
-            (msg,_) <- fdRead fd (fromIntegral $ size - (length rest))
-            return $ rest ++ msg
+	do
+	  let size = ((read n) :: Int)
+	  if (size == (length rest))
+	    then return rest
+	    else do
+	    (msg,_) <- fdRead fd (fromIntegral $ size - (length rest))
+	    return $ rest ++ msg
 
 transWrite :: Fd -> String -> IO ()
 transWrite fd msg =
@@ -43,18 +43,18 @@ transWrite fd msg =
 _ExternalToInternal :: Ex.Automata -> In.Automata
 _ExternalToInternal auto =
   In.Automata { In.name = Ex.automata auto
-              , In.description = Ex.description auto
-              , In.alpha = Ex.alpha auto
-              , In.start = Ex.start auto
-              , In.final = Ex.final auto
-              , In.states = map _DeltaToState (Ex.delta auto)
-              }
+	      , In.description = Ex.description auto
+	      , In.alpha = Ex.alpha auto
+	      , In.start = Ex.start auto
+	      , In.final = Ex.final auto
+	      , In.states = map _DeltaToState (Ex.delta auto)
+	      }
 
 _DeltaToState :: Ex.Delta -> In.State
 _DeltaToState _delta =
   In.State { In.state = Ex.node _delta ,
-             In.delta = deltas $ Ex.trans _delta
-           }
+	     In.delta = deltas $ Ex.trans _delta
+	   }
   where deltas = map (\tra -> ( Ex.symbol tra, Ex.next tra))
 
 
@@ -63,7 +63,7 @@ _AutoPToAutoI name auto = T.AutoInfo name (fromIntegral $ Ut.pid auto) nodeMap
   where
     nodeMap = map (_NodeToAutoInfo) (Ut.nodes auto)
     _NodeToAutoInfo _node = T.NodeInfo (Ut.node _node)
-                            (fromIntegral $ Ut.nodePid _node)
+			    (fromIntegral $ Ut.nodePid _node)
 
 _AutoMapToAutoList :: Map String Ut.AutoPar -> [T.AutoInfo]
 _AutoMapToAutoList autoMap = map (_convert) autoList
@@ -101,3 +101,10 @@ correct auto = startState && finalStates && deltas && alphabet
     statesNames     = map (In.state) (In.states auto)
     deltas          = null $ statesOnDeltas \\ statesNames
     alphabet        = null $ symbolsOnDeltas \\ In.alpha auto
+
+swapStdin :: String -> IO ()
+swapStdin file = do
+  let openFlags = OpenFileFlags True False False False False
+  nStdin <- openFd file ReadOnly Nothing openFlags
+  dupTo nStdin stdInput
+  return ()
