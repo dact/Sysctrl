@@ -7,7 +7,7 @@ import Data.Sysctrl.Types.Util     (AutoPar(..))
 import Sysctrl.Init.Automata       (automataInit)
 import Sysctrl.Control             (loop)
 import Sysctrl.Util                (correct,
-				    _ExternalToInternal)
+                                    _ExternalToInternal)
 
 import Data.Yaml           (decodeEither)
 import Data.ByteString     (ByteString)
@@ -47,9 +47,9 @@ initCheck autoList = do
 initProcces :: [I.Automata] -> IO ()
 initProcces autoList = do
   let mkAutoPar auto = do
-	(r,w) <- createPipe
-	(,) (I.name auto) <$> AutoPar auto
-			  <$> (automataInit w r auto)
+        (r,w) <- createPipe
+        (,) (I.name auto) <$> AutoPar auto
+                          <$> (automataInit w r auto)
   autoProcList <- sequence $ map (mkAutoPar) autoList
   initLoop autoProcList
 
@@ -58,4 +58,4 @@ initProcces autoList = do
 -- ############################
 
 initLoop :: [(String,AutoPar)] -> IO ()
-initLoop autoMap control = loop $ fromList autoMap
+initLoop autoMap = loop $ fromList autoMap
