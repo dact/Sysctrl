@@ -11,9 +11,8 @@ import qualified Data.Map as Map
 import qualified Data.Traversable as T (sequence)
 import qualified Data.ByteString as B (ByteString, getLine)
 import qualified Data.Foldable as F
-import System.Posix.Types (Fd)
 import System.Exit (exitSuccess)
-import System.IO (hFlush, stdout)
+import System.IO (hFlush, stdout, isEOF)
 import Data.ByteString.Char8 (pack, unpack)
 import Control.Applicative ((<$>))
 import Control.Monad (when)
@@ -29,13 +28,13 @@ cmdRead _cmd autoData= do
     (Right (Cmd "stop" _))  -> putStrLn "Closing.." >> exitSuccess
     (Right (Cmd a _))       -> putStrLn $ "Error: no command " ++ a
 
-loop :: Map String AutoPar -> IO ()
-loop autoData = do
-  putStr "> " >> hFlush stdout
-  line <- B.getLine
+loop :: Bool -> Map String AutoPar -> IO ()
+loop tty autoData = do
+  when tty $ putStr "> " >> hFlush stdout
+  eof <- isEOF
+  line <- if eof then exitSuccess >> error "" else B.getLine
   cmdRead line autoData
-  loop autoData
-
+  loop tty autoData
 
 cmdInfoAll :: Map String AutoPar -> IO ()
 cmdInfoAll autoData =
