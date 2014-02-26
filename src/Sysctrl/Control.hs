@@ -4,15 +4,15 @@ import Data.Yaml
 import Data.Sysctrl.Types
 import Data.Sysctrl.Types.Util
 import Sysctrl.Util
+import System.Console.Readline
 import qualified Data.Sysctrl.Types.Internal.Automata as I
 
 import Data.Map (Map)
 import qualified Data.Map as Map
 import qualified Data.Traversable as T (sequence)
-import qualified Data.ByteString as B (ByteString, getLine)
+import qualified Data.ByteString as B (ByteString)
 import qualified Data.Foldable as F
 import System.Exit (exitSuccess)
-import System.IO (hFlush, stdout, isEOF)
 import Data.ByteString.Char8 (pack, unpack)
 import Control.Applicative ((<$>))
 import Control.Monad (when)
@@ -30,11 +30,16 @@ cmdRead _cmd autoData= do
 
 loop :: Bool -> Map String AutoPar -> IO ()
 loop tty autoData = do
-  when tty $ putStr "> " >> hFlush stdout
-  eof <- isEOF
-  line <- if eof then exitSuccess >> error "" else B.getLine
-  cmdRead line autoData
-  loop tty autoData
+  prompt <- return $ if tty then "> " else ""
+--  eof <- isEOF
+--  line <- if eof then exitSuccess >> error "" else B.getLine
+  line <- readline prompt
+  case line of
+    Nothing -> exitSuccess
+    Just l  -> do
+      addHistory l
+      cmdRead (pack l) autoData
+      loop tty autoData
 
 cmdInfoAll :: Map String AutoPar -> IO ()
 cmdInfoAll autoData =
@@ -62,7 +67,7 @@ waitOutput autoMap = do
   let (a,r,e) = filterResult resMap
   when (a /= Accept []) $ (putStrLn.unpack.encode) $ [Response "accept" a]
   when (r /= Reject []) $ (putStrLn.unpack.encode) $ [Response "reject" r]
-  when (e /= Error []) $ (putStrLn.unpack.encode)  $ [Response "error" e]
+  when (e /= Error [])  $ (putStrLn.unpack.encode) $ [Response "error"  e]
 
 
 readOutput :: AutoPar -> IO DataType

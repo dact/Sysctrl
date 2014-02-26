@@ -27,6 +27,7 @@ instance ToJSON Cmd
 instance FromJSON Cmd where
   parseJSON (Object v) = Cmd <$> v .: "cmd"
                              <*> v .:? "msg" .!= ""
+  parseJSON _ = mzero
 
 --Represents the internal messages between states
 data Msg = Msg { recog::String, rest::String }
@@ -105,7 +106,7 @@ instance FromJSON DataType where
       _reject = mapM (parseJSON) (toList v)
       _accept = mapM (parseJSON) (toList v)
       _error  = mapM (parseJSON) (toList v)
-
+  parseJSON _ = mzero
 
 
 --Data type describing information about node process
