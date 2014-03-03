@@ -5,7 +5,7 @@ import System.Posix.IO
 import Data.Maybe
 import Data.List
 import System.Exit (exitSuccess)
-import Control.Exception (catch)
+import qualified Control.Exception as E (catch)
 import qualified Data.Map as Map
 import Data.Map (Map)
 import Control.Applicative ((<$>))
@@ -21,7 +21,7 @@ errorHandler _ = exitSuccess >> error "ERROR"
 transRead :: Fd -> IO String
 transRead fd =
   do
-    (readData, _ ) <- catch (fdRead fd 9) (errorHandler)
+    (readData, _ ) <- E.catch (fdRead fd 9) (errorHandler)
     let split = do
           i <- elemIndex '.' readData
           return $ splitAt i readData
