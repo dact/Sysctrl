@@ -20,9 +20,9 @@ compilerOpts argv =
   case getOpt Permute options argv of
     (o,n,[]  ) -> return (o,n)
     (_,_,errs) -> ioError (userError (concat errs ++ usageInfo header options))
-  where header = "Usage: sysctrl [-hvn] [-f File] choises..."
+  where header = "Usage: sysctrl [-h|-v|-n|-f File] choises..."
 
 helpmsg :: IO ()
 helpmsg = putStrLn $ usageInfo msg options
 	  where
-	    msg = "Usage: sysctrl [-hvn] [-f File] <conf.yaml> "
+	    msg = "Usage: sysctrl [-h|-v|-n|-f File] <conf.yaml> "

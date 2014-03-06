@@ -9,7 +9,7 @@ accordingly.
 ## Usage
 
 ```
-sysctrl [-hv] [-f script] infile
+sysctrl [-h|-v|-n|-f script] infile
 ```
 
 ## Input file format
@@ -26,7 +26,7 @@ Is an array of objects as follows
     - "node"  : "a"
       "trans" :
       - "symbol" : "a"
-        "next"   : "b"
+	"next"   : "b"
     - "node"  : "b"
       "trans" : []
 ```
@@ -52,19 +52,19 @@ where:
 
     <dt>delta</dt>
     <dd> Is an array of objects defining state transitions
-        <dl>
-            <dt>node</dt>
-            <dd>the name of the node</dd>
-            <dt>trans</dt>
-            <dd> An array with objects representing transitions
-                <dl>
-                    <dt>symbol</dt>
-                    <dd>character of the transition</dd>
-                    <dt>next</dt>
-                    <dd>next state in case of read symbol</dd>
-                </dl>
-            </dd>
-        </dl>
+	<dl>
+	    <dt>node</dt>
+	    <dd>the name of the node</dd>
+	    <dt>trans</dt>
+	    <dd> An array with objects representing transitions
+		<dl>
+		    <dt>symbol</dt>
+		    <dd>character of the transition</dd>
+		    <dt>next</dt>
+		    <dd>next state in case of read symbol</dd>
+		</dl>
+	    </dd>
+	</dl>
     </dd>
 
 </dl>
