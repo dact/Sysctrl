@@ -21,7 +21,8 @@ import Control.Monad (when)
 cmdRead :: B.ByteString -> Map String AutoPar -> IO ()
 cmdRead _cmd autoData= do
   case (decodeEither _cmd :: Either String Cmd) of
-    Left a -> putStrLn a
+    Left "mzero" -> putStrLn $ "no command: " ++ (show _cmd)
+    Left a       -> putStrLn a
     (Right (Cmd "info" "")) -> cmdInfoAll autoData
     (Right (Cmd "info" a))  -> cmdInfoOne autoData a
     (Right (Cmd "send" a))  -> cmdSend autoData a
