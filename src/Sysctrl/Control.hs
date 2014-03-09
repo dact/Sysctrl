@@ -18,15 +18,15 @@ import Control.Applicative ((<$>))
 import Control.Monad (when)
 import System.IO
 
-cmdRead :: B.ByteString -> Map String AutoPar -> IO ()
-cmdRead _cmd autoData= do
+cmdRead :: B.ByteString -> Map String AutoPar -> Bool -> IO ()
+cmdRead _cmd autoData tty= do
   case (decodeEither _cmd :: Either String Cmd) of
     Left "mzero" -> putStrLn $ "no command: " ++ (show _cmd)
     Left a       -> putStrLn a
     (Right (Cmd "info" "")) -> cmdInfoAll autoData
     (Right (Cmd "info" a))  -> cmdInfoOne autoData a
     (Right (Cmd "send" a))  -> cmdSend autoData a
-    (Right (Cmd "stop" _))  -> putStrLn "Closing.." >> exitSuccess
+    (Right (Cmd "stop" _))  -> (when tty $ putStrLn "Closing..") >> exitSuccess
     (Right (Cmd a _))       -> putStrLn $ "Error: no command " ++ a
 
 loop :: Bool -> Map String AutoPar -> IO ()
@@ -37,13 +37,13 @@ loop tty autoData = do
     case line of
       Nothing -> exitSuccess
       Just l  -> do
-	addHistory l
-	cmdRead (pack l) autoData
-	loop tty autoData
+        addHistory l
+        cmdRead (pack l) autoData tty
+        loop tty autoData
     else do
     eof <- isEOF
     line <- if eof then exitSuccess >> error "" else B.getLine
-    cmdRead line autoData
+    cmdRead line autoData tty
     loop tty autoData
 
 cmdInfoAll :: Map String AutoPar -> IO ()
@@ -81,8 +81,8 @@ readOutput auto = do
   _msg <- pack <$> transRead control
   let autoName = (I.name.info) auto
   let (Result cod _recog _rest) = case decode _msg of
-	Just _m  -> _m
-	Nothing -> Result 4 "_PARSE_ERROR_" (unpack _msg)
+        Just _m  -> _m
+        Nothing -> Result 4 "_PARSE_ERROR_" (unpack _msg)
   return $ case cod of
     0 -> Accept [AutoAccept autoName _recog]
     1 -> Reject [AutoReject autoName (_recog ++ _rest) (length _recog)]
@@ -94,7 +94,7 @@ filterResult resMap = F.foldr (foldData) baseTuple resMap
   where
     foldData _data (Accept a, Reject r, Error e) =
       case _data of
-	Accept _a -> (Accept $ a ++ _a, Reject r, Error e)
-	Reject _r -> (Accept a, Reject $ r ++ _r, Error e)
-	Error _e  -> (Accept a, Reject r, Error $ e ++ _e)
+        Accept _a -> (Accept $ a ++ _a, Reject r, Error e)
+        Reject _r -> (Accept a, Reject $ r ++ _r, Error e)
+        Error _e  -> (Accept a, Reject r, Error $ e ++ _e)
     baseTuple = (Accept [], Reject [], Error [])
